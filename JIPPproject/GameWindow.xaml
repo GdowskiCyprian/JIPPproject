@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JIPPproject"
         mc:Ignorable="d"
-        Title="Flappy Bird" Height="1050" Width="1920" >
-    <Canvas Name="MyCanvas" Focusable="True" Background="LightBlue" KeyDown="MyCanvas_KeyDown" KeyUp="MyCanvas_KeyUp">
+        Title="Flappy Bird" Height="1050" Width="1920" KeyDown="MyCanvas_KeyDown" KeyUp="MyCanvas_KeyUp" FocusManager.FocusedElement="{Binding ElementName=MyCanvas}" WindowState="Maximized">
+    <Canvas Name="MyCanvas" Focusable="True" Background="LightBlue"  >
 
-        <Image x:Name="obs11"  Height="700" Width="116" Source="images/pipeTop.png" Canvas.Left="1920" Canvas.Top="-600" Tag="obs1"/>
+        <Image x:Name="obs11"  Height="700" Width="116" Source="images/pipeTop.png" Canvas.Left="1920" Canvas.Top="-600" Tag="obs1" />
         <Image x:Name="obs12" Height="700" Width="116" Source="images/pipeBottom.png"  Canvas.Left="1920" Canvas.Top="400" Tag="obs1"/>
 
         <Image x:Name="obs21" Height="700" Width="116" Source="images/pipeTop.png" Canvas.Left="480" Canvas.Top="-600" Tag="obs2"/>
