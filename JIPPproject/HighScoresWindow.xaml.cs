@@ -11,6 +11,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Data.Entity.Core.Objects;
+using System.Linq;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace JIPPproject
 {
@@ -19,9 +23,23 @@ namespace JIPPproject
     /// </summary>
     public partial class HighScoresWindow : Window
     {
+        
         public HighScoresWindow()
         {
             InitializeComponent();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            JIPPproject.D4042020DataSet d4042020DataSet = ((JIPPproject.D4042020DataSet)(this.FindResource("d4042020DataSet")));
+            // Load data into the table Score. You can modify this code as needed.
+            JIPPproject.D4042020DataSetTableAdapters.ScoreTableAdapter d4042020DataSetScoreTableAdapter = new JIPPproject.D4042020DataSetTableAdapters.ScoreTableAdapter();
+            d4042020DataSetScoreTableAdapter.Fill(d4042020DataSet.Score);
+            System.Windows.Data.CollectionViewSource scoreViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("scoreViewSource")));
+            scoreViewSource.View.MoveCurrentToFirst();
+            
+        }
+
+        
     }
 }

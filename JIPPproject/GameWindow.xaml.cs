@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Threading;
 
 
 namespace JIPPproject
@@ -33,8 +34,10 @@ namespace JIPPproject
         public GameWindow()
         {
             InitializeComponent();
+            
             gameTimer.Tick += gameEngine;
             gameTimer.Interval = TimeSpan.FromMilliseconds(15);
+            
             startGame();
         }
         private int randomizer()
@@ -69,6 +72,7 @@ namespace JIPPproject
         }
         private void startGame()
         {
+            
             //loading default settings - for safety
             score = 0;
             Canvas.SetTop(flappyBird, 260);
@@ -90,6 +94,7 @@ namespace JIPPproject
             Canvas.SetLeft(obs42, 1440);
             Canvas.SetTop(obs42, 900);
             gameTimer.Start();
+            
         }
         private void gameEngine(object sender, EventArgs e)
         {
