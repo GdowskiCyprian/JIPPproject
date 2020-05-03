@@ -29,7 +29,7 @@ namespace JIPPproject
             InitializeComponent();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
             JIPPproject.D4042020DataSet d4042020DataSet = ((JIPPproject.D4042020DataSet)(this.FindResource("d4042020DataSet")));
             // Load data into the table Score. You can modify this code as needed.
