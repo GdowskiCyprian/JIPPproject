@@ -25,5 +25,7 @@
 
         <Image Stretch="Fill" Name="flappyBird" Height="97" Width="125" Source="images/flappyBird.png" Canvas.Left="100" Canvas.Top="260" />
 
+        <Button x:Name="endGameButton" Content="End Game" Width="200" Height="100" Canvas.Left="860" Canvas.Top="490"  Click="endGameButton_Click"/>
+        <Label x:Name="nicknameText" FontSize="20" Content="Nick: " Canvas.Top="37" />
     </Canvas>
 </Window>

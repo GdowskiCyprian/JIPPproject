@@ -13,7 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Threading;
-
+using System.Runtime.Remoting.Channels;
+using System.Data.SqlClient;
 
 namespace JIPPproject
 {
@@ -22,6 +23,7 @@ namespace JIPPproject
     /// </summary>
     public partial class GameWindow : Window
     {
+        string nickname = "";
         int gravity = 5;
         DispatcherTimer gameTimer = new DispatcherTimer();
         double score = 0;
@@ -31,10 +33,20 @@ namespace JIPPproject
         
 
 
-        public GameWindow()
+        public GameWindow(MainWindow window)
         {
             InitializeComponent();
-            
+
+
+            window.NicknameSelected += (sender, args) =>
+            {
+                MainWindow mainWindow = sender as MainWindow;
+                if (mainWindow != null)
+                {
+                    nickname += mainWindow.NicknameSend;
+                }
+            };
+
             gameTimer.Tick += gameEngine;
             gameTimer.Interval = TimeSpan.FromMilliseconds(15);
             
@@ -94,11 +106,15 @@ namespace JIPPproject
             Canvas.SetLeft(obs42, 1440);
             Canvas.SetTop(obs42, 900);
             gameTimer.Start();
+            Canvas.SetLeft(endGameButton, 1920);
             
+
+
         }
         private void gameEngine(object sender, EventArgs e)
         {
             scoreText.Content = "Score: " + score;
+            nicknameText.Content = "Nick: " + nickname;
             FlappyRect = new Rect(Canvas.GetLeft(flappyBird), Canvas.GetTop(flappyBird), 135, 97); //creating hitbox on top of the flappy bird
             Canvas.SetTop(flappyBird, Canvas.GetTop(flappyBird) + gravity);
             if(Canvas.GetTop(flappyBird)>1000 || Canvas.GetTop(flappyBird) < -50)
@@ -106,6 +122,8 @@ namespace JIPPproject
                 scoreText.Content += " press B to try again";
                 gameTimer.Stop();
                 gameover = true;
+                Canvas.SetLeft(endGameButton, 860);
+                sendDatatoDB(nickname, score);
             }
             foreach(var x in MyCanvas.Children.OfType<Image>())
             {
@@ -118,6 +136,9 @@ namespace JIPPproject
                         gameTimer.Stop();
                         gameover = true;
                         scoreText.Content += " press B to try again";
+                        Canvas.SetLeft(endGameButton, 860);
+
+                        sendDatatoDB(nickname, score);
                     }
 
 
@@ -173,6 +194,22 @@ namespace JIPPproject
                 }
             }
             
+        }
+
+        private void endGameButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+        private void sendDatatoDB(string nickname, double score)
+        {
+            SqlConnection connection = new SqlConnection("Data Source=sqltester2018.wwsi.edu.pl;Initial Catalog=D4042020;Persist Security Info=True;User ID=d4042020;Password=wwsi2020d404");
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.InsertCommand = new SqlCommand("Insert into cgdowski.score values(@nickname, @score)", connection);
+            da.InsertCommand.Parameters.Add("@nickname", System.Data.SqlDbType.VarChar).Value = nickname;
+            da.InsertCommand.Parameters.Add("@score", System.Data.SqlDbType.Int).Value = score;
+            connection.Open();
+            da.InsertCommand.ExecuteNonQuery();
+            connection.Close();
         }
     }
 }
