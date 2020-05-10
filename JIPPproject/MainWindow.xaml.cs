@@ -36,6 +36,10 @@ namespace JIPPproject
             {
                 MessageBox.Show("Enter your nickname to play");
             }
+            else if (this.nicknameTextBox.Text.Length > 14)
+            {
+                MessageBox.Show("Your nickname is too long (>14!)");
+            }
             else
             {
 
@@ -55,17 +59,7 @@ namespace JIPPproject
             highScoresWindow.ShowDialog();
         }
 
-        private void test1_Click(object sender, RoutedEventArgs e)
-        {
-            SqlConnection connection = new SqlConnection("Data Source=sqltester2018.wwsi.edu.pl;Initial Catalog=D4042020;Persist Security Info=True;User ID=d4042020;Password=wwsi2020d404");
-            SqlDataAdapter da = new SqlDataAdapter();
-            da.InsertCommand = new SqlCommand("Insert into cgdowski.score values(@nickname, @score)",connection);
-            da.InsertCommand.Parameters.Add("@nickname", System.Data.SqlDbType.VarChar).Value = "jd";
-            da.InsertCommand.Parameters.Add("@score", System.Data.SqlDbType.Int).Value = 69;
-            connection.Open();
-            da.InsertCommand.ExecuteNonQuery();
-            connection.Close();
-        }
+      
     }
 }
 /* zatrzymanie na chwile gry po otworzeniu okna

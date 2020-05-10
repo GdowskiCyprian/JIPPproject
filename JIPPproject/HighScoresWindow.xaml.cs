@@ -12,9 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data.Entity.Core.Objects;
-using System.Linq;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading;
 
 namespace JIPPproject
 {
@@ -27,6 +27,9 @@ namespace JIPPproject
         public HighScoresWindow()
         {
             InitializeComponent();
+            Thread.Sleep(200);
+            this.scoreColumn.SortDirection = System.ComponentModel.ListSortDirection.Descending;
+            
         }
 
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
@@ -38,6 +41,11 @@ namespace JIPPproject
             System.Windows.Data.CollectionViewSource scoreViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("scoreViewSource")));
             scoreViewSource.View.MoveCurrentToFirst();
             
+            
+            
+
+
+
         }
 
         

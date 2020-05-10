@@ -9,6 +9,7 @@
     <Window.Resources>
         <local:D4042020DataSet x:Key="d4042020DataSet"/>
         <CollectionViewSource x:Key="scoreViewSource" Source="{Binding Score, Source={StaticResource d4042020DataSet}}"/>
+        <CollectionViewSource x:Key="scoreViewSource1" d:DesignSource="{d:DesignInstance {x:Type local:Score}, CreateList=True}"/>
     </Window.Resources>
     <Grid DataContext="{StaticResource scoreViewSource}">
         <Grid.ColumnDefinitions>
@@ -22,11 +23,14 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="10" />
         </Grid.RowDefinitions>
-
-        <DataGrid x:Name="ScoreDataGrid" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="False" Background="White">
-
+        <DataGrid x:Name="scoreDataGrid" AutoGenerateColumns="False"  EnableRowVirtualization="True" ItemsSource="{Binding}"  Grid.Row="2" Grid.Column="1" RowDetailsVisibilityMode="VisibleWhenSelected" IsReadOnly="True">
+            <DataGrid.Columns>
+                
+                <DataGridTextColumn x:Name="nicknameColumn" Binding="{Binding nickname}" Header="Nickname" Width="100"/>
+                <DataGridTextColumn x:Name="scoreColumn" Binding="{Binding score}" Header="Score" Width="50" SortDirection="Descending" />
+            </DataGrid.Columns>
         </DataGrid>
-        
+
     </Grid>
-    
+
 </Window>

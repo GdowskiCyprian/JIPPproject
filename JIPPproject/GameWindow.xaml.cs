@@ -25,6 +25,7 @@ namespace JIPPproject
     {
         string nickname = "";
         int gravity = 5;
+        int entryPause = 0;
         DispatcherTimer gameTimer = new DispatcherTimer();
         double score = 0;
         Rect FlappyRect;
@@ -48,7 +49,7 @@ namespace JIPPproject
             };
 
             gameTimer.Tick += gameEngine;
-            gameTimer.Interval = TimeSpan.FromMilliseconds(15);
+            gameTimer.Interval = TimeSpan.FromMilliseconds(5);
             
             startGame();
         }
@@ -89,6 +90,7 @@ namespace JIPPproject
             score = 0;
             Canvas.SetTop(flappyBird, 260);
             gameover = false;
+            entryPause = 0;
             Canvas.SetLeft(obs11, 1920);
             Canvas.SetTop(obs11, -600);
             Canvas.SetLeft(obs12, 1920);
@@ -105,14 +107,22 @@ namespace JIPPproject
             Canvas.SetTop(obs41, -100);
             Canvas.SetLeft(obs42, 1440);
             Canvas.SetTop(obs42, 900);
-            gameTimer.Start();
             Canvas.SetLeft(endGameButton, 1920);
+            gameTimer.Start();
+            
             
 
 
         }
         private void gameEngine(object sender, EventArgs e)
         {
+            if(entryPause == 0)
+            {
+                gameTimer.Stop();
+                Thread.Sleep(2000);
+                gameTimer.Start();
+                entryPause = 1;
+            }
             scoreText.Content = "Score: " + score;
             nicknameText.Content = "Nick: " + nickname;
             FlappyRect = new Rect(Canvas.GetLeft(flappyBird), Canvas.GetTop(flappyBird), 135, 97); //creating hitbox on top of the flappy bird
