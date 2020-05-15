@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:JIPPproject"
         mc:Ignorable="d"
         Title="My Game" Height="360" Width="640" MinHeight="360" MinWidth="640" ResizeMode="CanMinimize">
-    <Grid>
+    <Grid Background="#4EC1C8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10" />
             <ColumnDefinition Width="*" />
@@ -29,10 +29,13 @@
             <RowDefinition Height="10" />
         </Grid.RowDefinitions>
         <Button Grid.Column="2" Grid.Row="4" Content="Start Game"
-                FontSize="30" x:Name="StartGameButton" Click="StartGameButton_Click"/>
+                FontSize="30" x:Name="StartGameButton" Click="StartGameButton_Click" Background="LightGreen"/>
         <Button x:Name="HighScoresButton" Grid.Column="2" Grid.Row="6"
-                FontSize="30" Content="High Scores" Click="HighScoresButton_Click" />
-        <TextBlock Grid.Column="2" Grid.Row="2" FontSize="40" >Flappy Bird</TextBlock>
+                FontSize="30" Content="High Scores" Click="HighScoresButton_Click" Background="LightGreen"/>
+        <Image Source="/images/title.png"  Grid.Column="2" Grid.Row="2" Width="200"/>
         <TextBox x:Name="nicknameTextBox" Grid.Column="2" Grid.Row="5" Text="Enter your nickname to play game" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Image Source="images/pipeBottom.png" Grid.Column="1" Grid.Row="4" Grid.RowSpan="6"/>
+        <Image Source="images/pipeTop.png" Grid.Column="3" Grid.Row="0" Grid.RowSpan="5" />
+        <Image Source="images/flappyBird.png" Grid.Column="1" Grid.Row="2" Width="100"/>
     </Grid>
 </Window>

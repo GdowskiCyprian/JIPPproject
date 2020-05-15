@@ -49,7 +49,7 @@ namespace JIPPproject
             };
 
             gameTimer.Tick += gameEngine;
-            gameTimer.Interval = TimeSpan.FromMilliseconds(5);
+            gameTimer.Interval = TimeSpan.FromMilliseconds(1);
             
             startGame();
         }
@@ -57,7 +57,7 @@ namespace JIPPproject
         {
 
             Random rnd = new Random();
-            return rnd.Next(0,5264264)%3;
+            return rnd.Next(0,2);
         }
 
         private void MyCanvas_KeyDown(object sender, KeyEventArgs e)
@@ -116,30 +116,33 @@ namespace JIPPproject
         }
         private void gameEngine(object sender, EventArgs e)
         {
-            if(entryPause == 0)
+            if(entryPause == 0) //przerwa na starcie gry
             {
                 gameTimer.Stop();
                 Thread.Sleep(2000);
                 gameTimer.Start();
                 entryPause = 1;
             }
-            scoreText.Content = "Score: " + score;
+            scoreText.Content = "Score: " + score; //wyswietlanie wyniku i nicku
             nicknameText.Content = "Nick: " + nickname;
-            FlappyRect = new Rect(Canvas.GetLeft(flappyBird), Canvas.GetTop(flappyBird), 135, 97); //creating hitbox on top of the flappy bird
-            Canvas.SetTop(flappyBird, Canvas.GetTop(flappyBird) + gravity);
-            if(Canvas.GetTop(flappyBird)>1000 || Canvas.GetTop(flappyBird) < -50)
+            FlappyRect = new Rect(Canvas.GetLeft(flappyBird)+31, Canvas.GetTop(flappyBird)+11, 77, 64); //creating hitbox on top of the flappy bird
+            Canvas.SetTop(flappyBird, Canvas.GetTop(flappyBird) + gravity); //obnizanie flappy birda co tick zegara
+            if(Canvas.GetTop(flappyBird)>1000 || Canvas.GetTop(flappyBird) < -50) //jezeli wyjdzie za gore lub dol ekranu stop
             {
                 scoreText.Content += " press B to try again";
                 gameTimer.Stop();
                 gameover = true;
                 Canvas.SetLeft(endGameButton, 860);
-                sendDatatoDB(nickname, score);
+                new Thread(delegate () { //wywolywanie funkcji zapisu w bazie danych w nowym wątku
+                    sendDatatoDB(nickname, score);
+                }).Start();
+                
             }
-            foreach(var x in MyCanvas.Children.OfType<Image>())
+            foreach(var x in MyCanvas.Children.OfType<Image>()) // dla kazdego x ktory jest typem obrazu
             {
                 if((string)x.Tag == "obs1" || (string)x.Tag == "obs2" || (string)x.Tag == "obs3" || (string)x.Tag == "obs4")
                 {
-                    Canvas.SetLeft(x, Canvas.GetLeft(x) - 5); //available modifier for difficulty level
+                    Canvas.SetLeft(x, Canvas.GetLeft(x) - 5); 
                     Rect pillar = new Rect(Canvas.GetLeft(x),Canvas.GetTop(x),x.Width,x.Height);
                     if (FlappyRect.IntersectsWith(pillar))
                     {
@@ -147,11 +150,21 @@ namespace JIPPproject
                         gameover = true;
                         scoreText.Content += " press B to try again";
                         Canvas.SetLeft(endGameButton, 860);
-
-                        sendDatatoDB(nickname, score);
+                        new Thread(delegate () {
+                            sendDatatoDB(nickname, score);
+                        }).Start();
+                        
                     }
 
 
+                }
+                if ((string)x.Tag == "cld")
+                {
+                    Canvas.SetLeft(x, Canvas.GetLeft(x) - 1);
+                    if(Canvas.GetLeft(x) < -400)
+                    {
+                        Canvas.SetLeft(x, 1920);
+                    }
                 }
                 int random = randomizer();
                 if((string)x.Name == "obs21" && Canvas.GetLeft(x) < -116)
@@ -210,8 +223,9 @@ namespace JIPPproject
         {
             this.Close();
         }
-        private void sendDatatoDB(string nickname, double score)
+        private void sendDatatoDB(string nickname, double score) //funkcja zapisu do bazy danych
         {
+            
             SqlConnection connection = new SqlConnection("Data Source=sqltester2018.wwsi.edu.pl;Initial Catalog=D4042020;Persist Security Info=True;User ID=d4042020;Password=wwsi2020d404");
             SqlDataAdapter da = new SqlDataAdapter();
             da.InsertCommand = new SqlCommand("Insert into cgdowski.score values(@nickname, @score)", connection);
@@ -220,6 +234,10 @@ namespace JIPPproject
             connection.Open();
             da.InsertCommand.ExecuteNonQuery();
             connection.Close();
+        }
+        private void aaa()
+        {
+
         }
     }
 }

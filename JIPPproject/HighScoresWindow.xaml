@@ -11,7 +11,7 @@
         <CollectionViewSource x:Key="scoreViewSource" Source="{Binding Score, Source={StaticResource d4042020DataSet}}"/>
         <CollectionViewSource x:Key="scoreViewSource1" d:DesignSource="{d:DesignInstance {x:Type local:Score}, CreateList=True}"/>
     </Window.Resources>
-    <Grid DataContext="{StaticResource scoreViewSource}">
+    <Grid DataContext="{StaticResource scoreViewSource}" Background="#4EC1C8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
@@ -23,9 +23,9 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="10" />
         </Grid.RowDefinitions>
-        <DataGrid x:Name="scoreDataGrid" AutoGenerateColumns="False"  EnableRowVirtualization="True" ItemsSource="{Binding}"  Grid.Row="2" Grid.Column="1" RowDetailsVisibilityMode="VisibleWhenSelected" IsReadOnly="True">
+        <DataGrid x:Name="scoreDataGrid" AutoGenerateColumns="False"  EnableRowVirtualization="True" ItemsSource="{Binding}"  Grid.Row="2" Grid.Column="1" RowDetailsVisibilityMode="VisibleWhenSelected" IsReadOnly="True" Background="#4EC1C8">
             <DataGrid.Columns>
-                
+
                 <DataGridTextColumn x:Name="nicknameColumn" Binding="{Binding nickname}" Header="Nickname" Width="100"/>
                 <DataGridTextColumn x:Name="scoreColumn" Binding="{Binding score}" Header="Score" Width="50" SortDirection="Descending" />
             </DataGrid.Columns>
