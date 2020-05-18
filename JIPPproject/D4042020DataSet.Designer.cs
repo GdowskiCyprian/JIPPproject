@@ -774,7 +774,7 @@ namespace JIPPproject.D4042020DataSetTableAdapters {
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM [cgdowski].[Score] WHERE (([id] = @Original_id) AND ([nickname] = @Or" +
+            this._adapter.DeleteCommand.CommandText = "DELETE FROM [cgdowski].[score] WHERE (([id] = @Original_id) AND ([nickname] = @Or" +
                 "iginal_nickname) AND ([score] = @Original_score))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
@@ -782,25 +782,23 @@ namespace JIPPproject.D4042020DataSetTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_score", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "score", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [cgdowski].[Score] ([id], [nickname], [score]) VALUES (@id, @nickname" +
-                ", @score);\r\nSELECT id, nickname, score FROM cgdowski.Score WHERE (id = @id)";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [cgdowski].[score] ([nickname], [score]) VALUES (@nickname, @score);\r" +
+                "\nSELECT id, nickname, score FROM cgdowski.score WHERE (id = SCOPE_IDENTITY()) OR" +
+                "DER BY score DESC";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@nickname", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "nickname", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@score", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "score", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = "UPDATE [cgdowski].[Score] SET [id] = @id, [nickname] = @nickname, [score] = @scor" +
-                "e WHERE (([id] = @Original_id) AND ([nickname] = @Original_nickname) AND ([score" +
-                "] = @Original_score));\r\nSELECT id, nickname, score FROM cgdowski.Score WHERE (id" +
-                " = @id)";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [cgdowski].[score] SET [nickname] = @nickname, [score] = @score WHERE (([id] = @Original_id) AND ([nickname] = @Original_nickname) AND ([score] = @Original_score));
+SELECT id, nickname, score FROM cgdowski.score WHERE (id = @id) ORDER BY score DESC";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@nickname", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "nickname", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@score", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "score", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_nickname", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "nickname", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_score", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "score", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -816,7 +814,8 @@ namespace JIPPproject.D4042020DataSetTableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT id, nickname, score FROM cgdowski.Score";
+            this._commandCollection[0].CommandText = "SELECT        id, nickname, score\r\nFROM            cgdowski.score\r\nORDER BY score" +
+                " DESC";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -906,15 +905,14 @@ namespace JIPPproject.D4042020DataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int id, string nickname, int score) {
-            this.Adapter.InsertCommand.Parameters[0].Value = ((int)(id));
+        public virtual int Insert(string nickname, int score) {
             if ((nickname == null)) {
                 throw new global::System.ArgumentNullException("nickname");
             }
             else {
-                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(nickname));
+                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(nickname));
             }
-            this.Adapter.InsertCommand.Parameters[2].Value = ((int)(score));
+            this.Adapter.InsertCommand.Parameters[1].Value = ((int)(score));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -935,23 +933,23 @@ namespace JIPPproject.D4042020DataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int id, string nickname, int score, int Original_id, string Original_nickname, int Original_score) {
-            this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(id));
+        public virtual int Update(string nickname, int score, int Original_id, string Original_nickname, int Original_score, int id) {
             if ((nickname == null)) {
                 throw new global::System.ArgumentNullException("nickname");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(nickname));
+                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(nickname));
             }
-            this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(score));
-            this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(Original_id));
+            this.Adapter.UpdateCommand.Parameters[1].Value = ((int)(score));
+            this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(Original_id));
             if ((Original_nickname == null)) {
                 throw new global::System.ArgumentNullException("Original_nickname");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((string)(Original_nickname));
+                this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(Original_nickname));
             }
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Original_score));
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Original_score));
+            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(id));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -973,7 +971,7 @@ namespace JIPPproject.D4042020DataSetTableAdapters {
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
         public virtual int Update(string nickname, int score, int Original_id, string Original_nickname, int Original_score) {
-            return this.Update(Original_id, nickname, score, Original_id, Original_nickname, Original_score);
+            return this.Update(nickname, score, Original_id, Original_nickname, Original_score, Original_id);
         }
     }
     

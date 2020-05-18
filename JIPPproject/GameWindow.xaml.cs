@@ -225,15 +225,20 @@ namespace JIPPproject
         }
         private void sendDatatoDB(string nickname, double score) //funkcja zapisu do bazy danych
         {
+            D4042020DataSetTableAdapters.ScoreTableAdapter scoreTableAdapter = new D4042020DataSetTableAdapters.ScoreTableAdapter();
+            scoreTableAdapter.Insert(nickname, (int)score);
             
-            SqlConnection connection = new SqlConnection("Data Source=sqltester2018.wwsi.edu.pl;Initial Catalog=D4042020;Persist Security Info=True;User ID=d4042020;Password=wwsi2020d404");
-            SqlDataAdapter da = new SqlDataAdapter();
-            da.InsertCommand = new SqlCommand("Insert into cgdowski.score values(@nickname, @score)", connection);
-            da.InsertCommand.Parameters.Add("@nickname", System.Data.SqlDbType.VarChar).Value = nickname;
-            da.InsertCommand.Parameters.Add("@score", System.Data.SqlDbType.Int).Value = score;
-            connection.Open();
-            da.InsertCommand.ExecuteNonQuery();
-            connection.Close();
+
+
+            //SqlConnection connection = new SqlConnection("Data Source=sqltester2018.wwsi.edu.pl;Initial Catalog=D4042020;Persist Security Info=True;User ID=d4042020;Password=wwsi2020d404");
+            //SqlDataAdapter da = new SqlDataAdapter();
+            //da.InsertCommand = new SqlCommand("Insert into cgdowski.score values(@nickname, @score)", connection);
+
+            //da.InsertCommand.Parameters.Add("@nickname", System.Data.SqlDbType.VarChar).Value = nickname;
+            //da.InsertCommand.Parameters.Add("@score", System.Data.SqlDbType.Int).Value = score;
+            //connection.Open();
+            //da.InsertCommand.ExecuteNonQuery();
+            //connection.Close();
         }
         private void aaa()
         {

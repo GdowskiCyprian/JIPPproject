@@ -48,8 +48,7 @@ namespace JIPPproject
                 GameWindow gameWindow = new GameWindow(this);
 
                 gameWindow.Show();
-
-                NicknameSelected(this, EventArgs.Empty);
+                NicknameSelected?.Invoke(this, EventArgs.Empty);
             }
         }
 
